@@ -328,14 +328,12 @@ function shouldIgnore(filename) {
 function compile(filename, callback) {
   const optsManager = new babel.OptionManager;
 
-  // merge in base options and resolve all the plugins and presets relative to this file
-  optsManager.mergeOptions({
+  const opts = optsManager.init({
+    filename,
     options: transformOpts,
     alias: 'base',
     loc: path.dirname(filename)
   });
-
-  const opts = optsManager.init({ filename });
   // Do not process config files since has already been done with the OptionManager
   // calls above and would introduce duplicates.
   opts.babelrc = false;
